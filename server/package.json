@@ -1,0 +1,13 @@
+{
+  "name": "pizzabellissima-server",
+  "version": "1.0.0",
+  "description": "PizzaBellisima API server with MongoDB persistence",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "mongodb": "^5.0.0"
+  }
+}
