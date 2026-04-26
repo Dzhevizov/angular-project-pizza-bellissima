@@ -1,0 +1,34 @@
+<section class="catalog">
+  <div class="catalog__wrapper">
+    <div class="catalog__header">
+      <div>
+        <span class="catalog__label">Нашето меню</span>
+
+        <nav class="catalog__submenu" aria-label="Категории">
+          <button
+            type="button"
+            *ngFor="let category of categories"
+            (click)="selectCategory(category.id)"
+            [class.active]="category.id === selectedCategory"
+          >
+            {{ category.label }}
+          </button>
+        </nav>
+
+        <h2>{{ title }}</h2>
+      </div>
+
+      <div *ngIf="isAdmin" class="catalog__admin-action">
+        <button class="btn-admin" type="button">+ Добави продукт</button>
+      </div>
+    </div>
+
+    <div class="catalog__grid">
+      <app-product-card *ngFor="let product of filteredProducts" [product]="product"></app-product-card>
+    </div>
+
+    <p *ngIf="filteredProducts.length === 0" class="catalog__empty">
+      Няма продукти за тази категория.
+    </p>
+  </div>
+</section>

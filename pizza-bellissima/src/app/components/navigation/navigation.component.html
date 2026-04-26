@@ -4,13 +4,15 @@
   </div>
 
   <header class="navigation__main">
-    <div class="navigation__brand">
-      <span class="navigation__logo">🍕</span>
-      <div class="navigation__brand-group">
-        <span class="navigation__title">Pizza Bellissima</span>
-        <a routerLink="/" fragment="offers" class="navigation__menu-link">Нашето меню</a>
+    <a routerLink="/" class="navigation__brand-link">
+      <div class="navigation__brand">
+        <span class="navigation__logo">🍕</span>
+        <div class="navigation__brand-group">
+          <span class="navigation__title">Pizza Bellissima</span>
+        </div>
       </div>
-    </div>
+    </a>
+    <a routerLink="/catalog" class="navigation__menu-link">Нашето меню</a>
 
     <div class="navigation__side">
       <div class="navigation__optional-link" *ngIf="isAuthenticated">
