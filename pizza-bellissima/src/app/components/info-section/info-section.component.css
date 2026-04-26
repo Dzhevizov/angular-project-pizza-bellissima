@@ -30,7 +30,7 @@
 .info-content span {
   display: inline-block;
   margin-bottom: 1rem;
-  color: #ffccbc;
+  color: var(--color-on-dark);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.16em;
@@ -47,7 +47,7 @@
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
-  color: #fff3e0;
+  color: var(--color-bg-soft-alt);
   font-size: 1.05rem;
   line-height: 1.8;
 }

@@ -1,0 +1,36 @@
+<div class="navigation">
+  <div class="navigation__topbar">
+    Безплатна доставка във Варна за поръчки над 20 лв
+  </div>
+
+  <header class="navigation__main">
+    <div class="navigation__brand">
+      <span class="navigation__logo">🍕</span>
+      <div class="navigation__brand-group">
+        <span class="navigation__title">Pizza Bellissima</span>
+        <a routerLink="/" fragment="offers" class="navigation__menu-link">Нашето меню</a>
+      </div>
+    </div>
+
+    <div class="navigation__side">
+      <div class="navigation__optional-link" *ngIf="isAuthenticated">
+        <a routerLink="/orders">{{ isAdmin ? 'Дневни поръчки' : 'Моите поръчки' }}</a>
+      </div>
+
+      <div class="navigation__user-block">
+        <ng-container *ngIf="isAuthenticated; else guestActions">
+          <span class="navigation__greeting">Здравей, {{ userName }}</span>
+          <button class="navigation__logout" type="button">Изход</button>
+        </ng-container>
+        <ng-template #guestActions>
+          <a href="#" class="navigation__link-secondary">Вход</a>
+          <a href="#" class="navigation__link-secondary">Регистрация</a>
+        </ng-template>
+      </div>
+
+      <button class="navigation__cart" type="button">
+        🛒 <span>0</span>
+      </button>
+    </div>
+  </header>
+</div>

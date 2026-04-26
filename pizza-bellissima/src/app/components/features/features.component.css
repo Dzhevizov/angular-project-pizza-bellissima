@@ -9,7 +9,7 @@
   margin-bottom: 0.75rem;
   font-size: 0.9rem;
   font-weight: 700;
-  color: #d84315;
+  color: var(--color-primary);
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
@@ -17,12 +17,12 @@
 .section-header h2 {
   margin: 0;
   font-size: clamp(1.9rem, 3vw, 2.6rem);
-  color: #2c2c2c;
+  color: var(--color-text);
 }
 .section-intro {
   margin-top: 1rem;
   max-width: 42rem;
-  color: #5c4b44;
+  color: var(--color-text-muted);
   line-height: 1.75;
 }
 .cards {
@@ -34,20 +34,20 @@
 .feature-card {
   padding: 1.8rem;
   border-radius: 1.5rem;
-  background: #fff7f1;
-  box-shadow: 0 20px 50px rgba(216, 67, 21, 0.08);
-  border: 1px solid rgba(216, 67, 21, 0.08);
+  background: var(--color-surface-soft);
+  box-shadow: 0 20px 50px rgba(220, 38, 38, 0.08);
+  border: 1px solid var(--color-border);
 }
 
 .feature-card h3 {
   margin-top: 0;
   margin-bottom: 0.85rem;
-  color: #ba3600;
+  color: var(--color-primary-dark);
 }
 
 .feature-card p {
   margin: 0;
-  color: #5a4b42;
+  color: var(--color-text-muted);
   line-height: 1.75;
 }
 
