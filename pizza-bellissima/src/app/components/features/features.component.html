@@ -1,0 +1,13 @@
+<section class="features">
+  <div class="section-header">
+    <span>Нашите предимства</span>
+    <h2>Какво прави Pizza Bellissima уникална</h2>
+    <p class="section-intro">Това са основните предимства, които подкрепят обещанието ни за вкус и обслужване.</p>
+  </div>
+  <div class="cards">
+    <article class="feature-card" *ngFor="let feature of features">
+      <h3>{{ feature.title }}</h3>
+      <p>{{ feature.description }}</p>
+    </article>
+  </div>
+</section>

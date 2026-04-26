@@ -1,0 +1,27 @@
+<section class="top-offers">
+  <div class="top-offers-header">
+    <div>
+      <span>Топ оферти</span>
+      <h2>Нашите горещи предложения</h2>
+    </div>
+    <p>Избрани продукти с най-добра цена и специални отстъпки за бързо поръчване.</p>
+  </div>
+
+  <div class="offers-grid">
+    <article class="offer-card" *ngFor="let offer of topOffers">
+      <img [src]="offer.image" [alt]="offer.name" />
+      <div class="offer-data">
+        <h3>{{ offer.name }}</h3>
+        <p>{{ offer.description }}</p>
+        <div class="offer-meta">
+          <span class="offer-price">{{ offer.price | number:'1.2-2' }} лв</span>
+          <span class="offer-discount">-{{ offer.discount }}%</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="cta-row">
+    <a routerLink="/catalog" class="btn-primary">Виж всички продукти</a>
+  </div>
+</section>
