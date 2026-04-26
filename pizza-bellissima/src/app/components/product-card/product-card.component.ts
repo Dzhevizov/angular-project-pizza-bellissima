@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Product } from '../../models/product.model';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-card',
@@ -12,4 +13,10 @@ import { Product } from '../../models/product.model';
 })
 export class ProductCardComponent {
   @Input() product!: Product;
+
+  constructor(private cartService: CartService) {}
+
+  addToCart() {
+    this.cartService.addToCart(this.product);
+  }
 }
