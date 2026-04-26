@@ -1,0 +1,29 @@
+<section class="product-detail">
+  <div class="product-detail__wrapper" *ngIf="product; else notFound">
+    <img [src]="product.image" [alt]="product.name" class="product-detail__image" />
+
+    <div class="product-detail__info">
+      <span class="product-detail__category">{{ categoryTitles[product.category] }}</span>
+      <h1>{{ product.name }}</h1>
+      <p class="product-detail__description">{{ product.description }}</p>
+
+      <div class="product-detail__pricing">
+        <span class="product-detail__price">{{ product.price | number:'1.2-2' }} лв</span>
+        <span class="product-detail__discount" *ngIf="product.discount">-{{ product.discount }}%</span>
+      </div>
+
+      <div class="product-detail__actions">
+        <button class="btn-primary" type="button" (click)="addToCart()">Добави в количката</button>
+        <a routerLink="/catalog" class="btn-secondary">Назад към каталога</a>
+      </div>
+      <p class="product-detail__confirmation" *ngIf="addedToCart">Продуктът беше добавен в количката.</p>
+    </div>
+  </div>
+
+  <ng-template #notFound>
+    <div class="product-detail__missing">
+      <p>Продуктът не беше намерен.</p>
+      <a routerLink="/catalog" class="btn-secondary">Върни се в каталога</a>
+    </div>
+  </ng-template>
+</section>

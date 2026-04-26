@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-navigation',
@@ -10,8 +11,12 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./navigation.component.css'],
 })
 export class NavigationComponent {
+  cartCount$ = this.cartService.cartCount$;
+
   // Future auth state placeholders; auth is not implemented yet.
   isAuthenticated = true;
   isAdmin = false;
   userName = 'Иван';
+
+  constructor(private cartService: CartService) {}
 }
