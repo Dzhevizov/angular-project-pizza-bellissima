@@ -14,7 +14,7 @@ export class NavigationComponent {
   cartCount$ = this.cartService.cartCount$;
 
   // Future auth state placeholders; auth is not implemented yet.
-  isAuthenticated = true;
+  isAuthenticated = false;
   isAdmin = false;
   userName = 'Иван';
 

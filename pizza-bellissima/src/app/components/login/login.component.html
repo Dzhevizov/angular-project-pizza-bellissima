@@ -1,0 +1,60 @@
+<div class="flex justify-center items-start py-24 bg-gray-50">
+  <div class="max-w-md w-full bg-gray-100 shadow-lg rounded-lg p-8">
+    <h2 class="text-xl font-bold text-gray-900 mb-6">Вход в профила</h2>
+
+    <form (ngSubmit)="handleSubmit()" #loginForm="ngForm" class="space-y-6">
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">
+          Имейл
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Въведете имейл"
+          [(ngModel)]="email"
+          required
+          class="mt-2 block w-full rounded-md border border-gray-400 px-3 py-2"
+        />
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">
+          Парола
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Въведете парола"
+          [(ngModel)]="password"
+          required
+          class="mt-2 block w-full rounded-md border border-gray-400 px-3 py-2"
+        />
+      </div>
+
+      @if (error) {
+        <p class="text-red-600 text-sm">{{ error }}</p>
+      }
+
+      <button
+        type="submit"
+        class="rounded-md bg-red-600 px-4 py-2 text-white"
+      >
+        Вход
+      </button>
+    </form>
+
+    <div class="mt-6 text-center text-sm">
+      <p class="text-gray-700">
+        Нямате профил?
+        <a
+          routerLink="/register"
+          class="font-medium text-red-600 hover:text-red-500"
+        >
+          Регистрирайте се
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
