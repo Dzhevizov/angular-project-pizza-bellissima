@@ -1,0 +1,75 @@
+<ng-container *ngIf="summary$ | async as summary">
+  <div class="cart" [class.cart--open]="isOpen$ | async">
+    <!-- Backdrop -->
+    <div class="cart__backdrop" (click)="close()"></div>
+
+    <!-- Panel -->
+    <div class="cart__panel">
+      <div class="cart__header">
+        <h2 class="cart__title">Моята количка</h2>
+        <button class="cart__close" type="button" (click)="close()" aria-label="Затвори">✕</button>
+      </div>
+
+      <!-- Продукти -->
+      <ul class="cart__items">
+        <li class="cart__item" *ngFor="let item of summary.items">
+          <img class="cart__item-img" [src]="item.product.image" [alt]="item.product.name" />
+
+          <div class="cart__item-info">
+            <h3 class="cart__item-name">{{ item.product.name }}</h3>
+            <p class="cart__item-desc">{{ item.product.description }}</p>
+
+            <div class="cart__item-controls">
+              <button class="cart__qty-btn" type="button" (click)="updateQuantity(item.product.id, -1)">–</button>
+              <span class="cart__qty">{{ item.quantity }}</span>
+              <button class="cart__qty-btn" type="button" (click)="updateQuantity(item.product.id, +1)">+</button>
+            </div>
+          </div>
+
+          <div class="cart__item-right">
+            <span class="cart__item-price">
+              {{ (item.product.price * item.quantity) | number:'1.2-2' }} лв
+              <span class="cart__item-eur">/ {{ toEur(item.product.price * item.quantity) }} €</span>
+            </span>
+            <span class="cart__item-discount" *ngIf="item.product.discount">-{{ item.product.discount }}%</span>
+            <button class="cart__remove" type="button" (click)="remove(item.product.id)">Премахни</button>
+          </div>
+        </li>
+
+        <li class="cart__empty" *ngIf="summary.items.length === 0">
+          Количката е празна.
+        </li>
+      </ul>
+
+      <!-- Обобщение -->
+      <div class="cart__summary">
+        <div class="cart__summary-row">
+          <span>Субтотал</span>
+          <span>{{ summary.subtotal | number:'1.2-2' }} лв / {{ toEur(summary.subtotal) }} €</span>
+        </div>
+        <div class="cart__summary-row cart__summary-row--muted" *ngIf="summary.discounts > 0">
+          <span>Отстъпки</span>
+          <span>-{{ summary.discounts | number:'1.2-2' }} лв / -{{ toEur(summary.discounts) }} €</span>
+        </div>
+        <div class="cart__summary-row cart__summary-row--muted" *ngIf="summary.deliveryFee > 0">
+          <span>Доставка</span>
+          <span>{{ summary.deliveryFee | number:'1.2-2' }} лв</span>
+        </div>
+        <div class="cart__summary-row cart__summary-row--total">
+          <span>Крайна сума</span>
+          <span>{{ summary.total | number:'1.2-2' }} лв / {{ toEur(summary.total) }} €</span>
+        </div>
+      </div>
+
+      <!-- Действия -->
+      <div class="cart__actions">
+        <button class="cart__order-btn" type="button" (click)="placeOrder(summary)">
+          Поръчай
+        </button>
+        <button class="cart__continue-btn" type="button" (click)="close()">
+          Продължи пазаруването →
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

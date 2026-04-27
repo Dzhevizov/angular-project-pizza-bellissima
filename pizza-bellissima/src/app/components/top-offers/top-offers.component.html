@@ -8,20 +8,7 @@
   </div>
 
   <div class="offers-grid">
-    <article class="offer-card" *ngFor="let offer of topOffers">
-      <a [routerLink]="['/product', offer.id]" class="offer-card__link">
-        <img [src]="offer.image" [alt]="offer.name" />
-        <div class="offer-data">
-          <h3>{{ offer.name }}</h3>
-          <p>{{ offer.description }}</p>
-          <div class="offer-meta">
-            <span class="offer-price">{{ offer.price | number:'1.2-2' }} лв</span>
-            <span class="offer-discount">-{{ offer.discount }}%</span>
-          </div>
-        </div>
-      </a>
-      <button class="btn-primary offer-card__button" type="button" (click)="addToCart(offer)">Добави в количката</button>
-    </article>
+    <app-product-card *ngFor="let offer of topOffers" [product]="offer"></app-product-card>
   </div>
 
   <div class="cta-row">

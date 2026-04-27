@@ -30,7 +30,7 @@
         </ng-template>
       </div>
 
-      <button class="navigation__cart" type="button">
+      <button class="navigation__cart" type="button" (click)="openCart()">
         🛒 <span>{{ cartCount$ | async }}</span>
       </button>
     </div>

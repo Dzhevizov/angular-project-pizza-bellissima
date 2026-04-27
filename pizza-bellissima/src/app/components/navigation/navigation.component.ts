@@ -19,4 +19,8 @@ export class NavigationComponent {
   userName = 'Иван';
 
   constructor(private cartService: CartService) {}
+
+  openCart() {
+    this.cartService.openCart();
+  }
 }
