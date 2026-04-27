@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { products } from '../../data/products';
 import { Product, ProductCategory } from '../../models/product.model';
@@ -41,11 +41,15 @@ export class CatalogComponent {
   title = categoryTitles[this.selectedCategory];
   isAdmin = true;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe((params) => {
       const category = (params.get('category') as ProductCategory) || ProductCategory.Pizza;
       this.selectCategory(category);
     });
+  }
+
+  goToAddProduct() {
+    this.router.navigate(['/product/add']);
   }
 
   selectCategory(category: string | ProductCategory) {

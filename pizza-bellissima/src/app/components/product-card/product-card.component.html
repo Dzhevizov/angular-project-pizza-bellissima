@@ -8,7 +8,7 @@
   </a>
 
   <div class="product-card__meta">
-    <span class="product-card__price">{{ toEur(product.price) }} € / {{ product.price | number:'1.2-2' }} лв</span>
+    <span class="product-card__price">{{ product.price | number:'1.2-2' }} € / {{ toLev(product.price) }} лв</span>
     <span class="product-card__discount" *ngIf="product.discount">
       -{{ product.discount }}%
     </span>

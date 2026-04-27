@@ -4,7 +4,9 @@ import { CartService, CartItem } from '../../services/cart.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const LEV_TO_EUR = 1.95583;
+const EUR_TO_LEV = 1.95583;
+const FREE_DELIVERY_THRESHOLD_EUR = 20 / EUR_TO_LEV; // ~10.23 €
+const DELIVERY_FEE_EUR = 4.99 / EUR_TO_LEV;          // ~2.55 €
 
 interface CartSummary {
   items: CartItem[];
@@ -30,7 +32,9 @@ export class CartComponent {
         return sum + ((i.product.discount || 0) / 100) * i.product.price * i.quantity;
       }, 0);
       const afterDiscount = subtotal - discounts;
-      const deliveryFee = afterDiscount > 0 && afterDiscount < 20 ? 4.99 : 0;
+      const deliveryFee = afterDiscount > 0 && afterDiscount < FREE_DELIVERY_THRESHOLD_EUR
+        ? DELIVERY_FEE_EUR
+        : 0;
       return { items, subtotal, discounts, deliveryFee, total: afterDiscount + deliveryFee };
     })
   );
@@ -49,8 +53,8 @@ export class CartComponent {
     this.cartService.removeFromCart(productId);
   }
 
-  toEur(lev: number): string {
-    return (lev / LEV_TO_EUR).toFixed(2);
+  toLev(eur: number): string {
+    return (eur * EUR_TO_LEV).toFixed(2);
   }
 
   placeOrder(summary: CartSummary) {
