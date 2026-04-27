@@ -8,7 +8,7 @@
       <p class="product-detail__description">{{ product.description }}</p>
 
       <div class="product-detail__pricing">
-        <span class="product-detail__price">{{ toEur(product.price) }} € / {{ product.price | number:'1.2-2' }} лв</span>
+        <span class="product-detail__price">{{ product.price| number:'1.2-2' }} € / {{ toLev(product.price) }} лв</span>
         <span class="product-detail__discount" *ngIf="product.discount">-{{ product.discount }}%</span>
       </div>
 
@@ -19,7 +19,7 @@
       <p class="product-detail__confirmation" *ngIf="addedToCart">Продуктът беше добавен в количката.</p>
 
       <div class="product-detail__admin-actions" *ngIf="isAdmin">
-        <button class="btn-admin-edit" type="button" (click)="editProduct()">Редактирай</button>
+        <button class="btn-admin-edit" type="button" (click)="editProduct(product.id)">Редактирай</button>
         <button class="btn-admin-delete" type="button" (click)="deleteProduct()">Изтрий</button>
       </div>
     </div>

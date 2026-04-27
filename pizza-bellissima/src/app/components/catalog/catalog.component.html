@@ -19,7 +19,7 @@
       </div>
 
       <div *ngIf="isAdmin" class="catalog__admin-action">
-        <button class="btn-admin" type="button">+ Добави продукт</button>
+        <button class="btn-admin" type="button" (click)="goToAddProduct()">+ Добави продукт</button>
       </div>
     </div>
 

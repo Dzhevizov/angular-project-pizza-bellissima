@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Product, ProductCategory } from '../../models/product.model';
 import { products } from '../../data/products';
 import { CartService } from '../../services/cart.service';
@@ -21,12 +21,18 @@ const categoryTitles: Record<ProductCategory, string> = {
   styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailComponent {
+  private readonly EUR_TO_LEV = 1.95583;
+
   product?: Product;
   categoryTitles = categoryTitles;
   addedToCart = false;
-  isAdmin = true; // Placeholder for admin state; auth is not implemented yet.
+  isAdmin = false;
 
-  constructor(private route: ActivatedRoute, private cartService: CartService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private cartService: CartService
+  ) {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       this.product = id ? products.find((item) => item.id === id) : undefined;
@@ -34,26 +40,20 @@ export class ProductDetailComponent {
     });
   }
 
-  private readonly LEV_TO_EUR = 1.95583;
-
-  toEur(lev: number): string {
-    return (lev / this.LEV_TO_EUR).toFixed(2);
+  toLev(eur: number): string {
+    return (eur * this.EUR_TO_LEV).toFixed(2);
   }
 
-  editProduct() {}
+  editProduct(id: string) {
+    this.router.navigate(['/product/edit', id]);
+  }
 
   deleteProduct() {}
 
   addToCart() {
-    if (!this.product) {
-      return;
-    }
-
+    if (!this.product) return;
     this.cartService.addToCart(this.product);
     this.addedToCart = true;
-
-    setTimeout(() => {
-      this.addedToCart = false;
-    }, 2500);
+    setTimeout(() => { this.addedToCart = false; }, 2500);
   }
 }

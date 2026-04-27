@@ -1,0 +1,121 @@
+<div class="product-form">
+  <div class="product-form__card">
+    <h2 class="product-form__title">
+      {{ isEditMode ? 'Редакция на продукт' : 'Добавяне на нов продукт' }}
+    </h2>
+
+    <form (ngSubmit)="handleSubmit()" #formRef="ngForm" class="product-form__body">
+
+      <!-- Основна информация -->
+      <section class="product-form__section">
+        <h3 class="product-form__section-title">Основна информация</h3>
+
+        <div class="product-form__grid">
+          <div class="product-form__field product-form__field--full">
+            <label for="name" class="product-form__label">Име <span class="product-form__required">*</span></label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              [(ngModel)]="name"
+              required
+              placeholder="Напр. Маргарита"
+              class="product-form__input"
+            />
+          </div>
+
+          <div class="product-form__field product-form__field--full">
+            <label for="category" class="product-form__label">Категория <span class="product-form__required">*</span></label>
+            <select id="category" name="category" [(ngModel)]="category" class="product-form__select">
+              <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
+            </select>
+          </div>
+
+          <div class="product-form__field">
+            <label for="price" class="product-form__label">Цена (€) <span class="product-form__required">*</span></label>
+            <input
+              id="price"
+              name="price"
+              type="number"
+              [(ngModel)]="price"
+              required
+              min="0.01"
+              step="0.01"
+              placeholder="0.00"
+              class="product-form__input"
+            />
+            <span class="product-form__hint" *ngIf="price && price > 0">
+              ≈ {{ toLev(price) }} лв
+            </span>
+          </div>
+
+          <div class="product-form__field">
+            <label for="discount" class="product-form__label">Отстъпка (%)</label>
+            <input
+              id="discount"
+              name="discount"
+              type="number"
+              [(ngModel)]="discount"
+              min="0"
+              max="100"
+              step="1"
+              placeholder="0"
+              class="product-form__input"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Описание -->
+      <section class="product-form__section">
+        <h3 class="product-form__section-title">Описание</h3>
+
+        <div class="product-form__field">
+          <label for="description" class="product-form__label">Описание на продукта</label>
+          <textarea
+            id="description"
+            name="description"
+            [(ngModel)]="description"
+            rows="4"
+            placeholder="Кратко описание на продукта..."
+            class="product-form__textarea"
+          ></textarea>
+        </div>
+      </section>
+
+      <!-- Медия -->
+      <section class="product-form__section">
+        <h3 class="product-form__section-title">Изображение</h3>
+
+        <div class="product-form__field">
+          <label for="image" class="product-form__label">URL на изображение</label>
+          <input
+            id="image"
+            name="image"
+            type="url"
+            [(ngModel)]="image"
+            placeholder="https://..."
+            class="product-form__input"
+          />
+        </div>
+
+        <div class="product-form__preview" *ngIf="image">
+          <img [src]="image" alt="Преглед на изображение" class="product-form__preview-img" />
+        </div>
+      </section>
+
+      @if (error) {
+        <p class="product-form__error">{{ error }}</p>
+      }
+
+      <!-- Бутони -->
+      <div class="product-form__actions">
+        <button type="button" (click)="cancel()" class="product-form__btn-cancel">Отмени</button>
+        <button type="submit" class="product-form__btn-submit">
+          {{ isEditMode ? 'Запази промените' : 'Добави продукт' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
