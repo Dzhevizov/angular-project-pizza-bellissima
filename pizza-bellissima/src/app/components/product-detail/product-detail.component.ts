@@ -33,6 +33,12 @@ export class ProductDetailComponent {
     });
   }
 
+  private readonly LEV_TO_EUR = 1.95583;
+
+  toEur(lev: number): string {
+    return (lev / this.LEV_TO_EUR).toFixed(2);
+  }
+
   addToCart() {
     if (!this.product) {
       return;

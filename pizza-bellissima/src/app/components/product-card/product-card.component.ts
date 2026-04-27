@@ -14,7 +14,13 @@ import { CartService } from '../../services/cart.service';
 export class ProductCardComponent {
   @Input() product!: Product;
 
+  private readonly LEV_TO_EUR = 1.95583;
+
   constructor(private cartService: CartService) {}
+
+  toEur(lev: number): string {
+    return (lev / this.LEV_TO_EUR).toFixed(2);
+  }
 
   addToCart() {
     this.cartService.addToCart(this.product);

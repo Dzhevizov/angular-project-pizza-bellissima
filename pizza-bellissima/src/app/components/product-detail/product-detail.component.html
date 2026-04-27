@@ -8,7 +8,7 @@
       <p class="product-detail__description">{{ product.description }}</p>
 
       <div class="product-detail__pricing">
-        <span class="product-detail__price">{{ product.price | number:'1.2-2' }} лв</span>
+        <span class="product-detail__price">{{ toEur(product.price) }} € / {{ product.price | number:'1.2-2' }} лв</span>
         <span class="product-detail__discount" *ngIf="product.discount">-{{ product.discount }}%</span>
       </div>
 
