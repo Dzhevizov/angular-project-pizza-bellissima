@@ -17,6 +17,11 @@
         <a routerLink="/catalog" class="btn-secondary">Назад към каталога</a>
       </div>
       <p class="product-detail__confirmation" *ngIf="addedToCart">Продуктът беше добавен в количката.</p>
+
+      <div class="product-detail__admin-actions" *ngIf="isAdmin">
+        <button class="btn-admin-edit" type="button" (click)="editProduct()">Редактирай</button>
+        <button class="btn-admin-delete" type="button" (click)="deleteProduct()">Изтрий</button>
+      </div>
     </div>
   </div>
 

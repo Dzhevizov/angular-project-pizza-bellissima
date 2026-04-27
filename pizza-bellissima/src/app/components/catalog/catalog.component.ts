@@ -39,7 +39,7 @@ export class CatalogComponent {
   selectedCategory: ProductCategory = ProductCategory.Pizza;
   filteredProducts: Product[] = this.products.filter((product) => product.category === this.selectedCategory);
   title = categoryTitles[this.selectedCategory];
-  isAdmin = false;
+  isAdmin = true;
 
   constructor(private route: ActivatedRoute) {
     this.route.paramMap.subscribe((params) => {

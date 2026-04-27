@@ -24,6 +24,7 @@ export class ProductDetailComponent {
   product?: Product;
   categoryTitles = categoryTitles;
   addedToCart = false;
+  isAdmin = true; // Placeholder for admin state; auth is not implemented yet.
 
   constructor(private route: ActivatedRoute, private cartService: CartService) {
     this.route.paramMap.subscribe((params) => {
@@ -38,6 +39,10 @@ export class ProductDetailComponent {
   toEur(lev: number): string {
     return (lev / this.LEV_TO_EUR).toFixed(2);
   }
+
+  editProduct() {}
+
+  deleteProduct() {}
 
   addToCart() {
     if (!this.product) {

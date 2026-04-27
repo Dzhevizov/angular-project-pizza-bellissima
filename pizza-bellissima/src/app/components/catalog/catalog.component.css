@@ -77,6 +77,12 @@
   border: none;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-admin:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
 }
 
 .catalog__grid {
