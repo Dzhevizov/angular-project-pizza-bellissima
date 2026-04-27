@@ -101,7 +101,7 @@
                 });
             } else {
                 try {
-                    context = processPlugins();
+                    context = await processPlugins();
                     await handle(context);
                 } catch (err) {
                     if (err instanceof ServiceError$1) {
