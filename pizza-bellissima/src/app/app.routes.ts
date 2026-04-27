@@ -3,6 +3,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CatalogComponent } from './components/catalog/catalog.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
+import { OrdersComponent } from './components/orders/orders.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 
@@ -32,6 +33,11 @@ export const routes: Routes = [
   {
     path: 'product/:id',
     component: ProductDetailComponent,
+  },
+  {
+    path: 'orders',
+    pathMatch: 'full',
+    component: OrdersComponent,
   },
   {
     path: 'login',

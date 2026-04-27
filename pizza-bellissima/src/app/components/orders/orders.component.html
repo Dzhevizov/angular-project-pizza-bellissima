@@ -1,0 +1,66 @@
+<section class="orders">
+  <div class="orders__wrapper">
+    <h1 class="orders__title">{{ isAdmin ? 'Дневни поръчки' : 'Моите поръчки' }}</h1>
+
+    <ng-container *ngIf="orders$ | async as orders">
+
+      <p class="orders__empty" *ngIf="orders.length === 0">
+        {{ isAdmin ? 'Няма поръчки за днес.' : 'Нямате направени поръчки.' }}
+      </p>
+
+      <ul class="orders__list" *ngIf="orders.length > 0">
+        <li class="order-card" *ngFor="let order of orders">
+
+          <!-- Хедър на поръчката -->
+          <div class="order-card__header">
+            <div class="order-card__meta">
+              <span class="order-card__id">#{{ order.id }}</span>
+              <span class="order-card__date">{{ order.date }}</span>
+            </div>
+            <span
+              class="order-card__status"
+              [class.order-card__status--pending]="order.status === 'PENDING'"
+              [class.order-card__status--delivered]="order.status === 'DELIVERED'"
+              [class.order-card__status--cancelled]="order.status === 'CANCELLED'"
+            >
+              {{ statusLabel(order.status) }}
+            </span>
+          </div>
+
+          <!-- Продукти -->
+          <ul class="order-card__items">
+            <li class="order-card__item" *ngFor="let item of order.items">
+              <span class="order-card__item-name">{{ item.name }} × {{ item.quantity }}</span>
+              <span class="order-card__item-price">
+                {{ (item.price * item.quantity) | number:'1.2-2' }} €
+                / {{ toLev(item.price * item.quantity) }} лв
+              </span>
+            </li>
+          </ul>
+
+          <!-- Ценово обобщение -->
+          <div class="order-card__summary">
+            <div class="order-card__summary-row">
+              <span>Субтотал</span>
+              <span>{{ order.subtotal | number:'1.2-2' }} € / {{ toLev(order.subtotal) }} лв</span>
+            </div>
+            <div class="order-card__summary-row order-card__summary-row--muted" *ngIf="order.discounts > 0">
+              <span>Отстъпки</span>
+              <span>-{{ order.discounts | number:'1.2-2' }} € / -{{ toLev(order.discounts) }} лв</span>
+            </div>
+            <div class="order-card__summary-row order-card__summary-row--muted" *ngIf="order.deliveryFee > 0">
+              <span>Доставка</span>
+              <span>{{ order.deliveryFee | number:'1.2-2' }} € / {{ toLev(order.deliveryFee) }} лв</span>
+            </div>
+            <div class="order-card__summary-row order-card__summary-row--total">
+              <span>Общо</span>
+              <span>{{ order.total | number:'1.2-2' }} € / {{ toLev(order.total) }} лв</span>
+            </div>
+          </div>
+
+        </li>
+      </ul>
+
+    </ng-container>
+  </div>
+</section>

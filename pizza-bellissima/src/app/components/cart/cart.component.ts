@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { CartService, CartItem } from '../../services/cart.service';
+import { OrderService } from '../../services/order.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -39,7 +41,11 @@ export class CartComponent {
     })
   );
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private orderService: OrderService,
+    private router: Router
+  ) {}
 
   close() {
     this.cartService.closeCart();
@@ -59,8 +65,21 @@ export class CartComponent {
 
   placeOrder(summary: CartSummary) {
     if (summary.items.length === 0) return;
-    alert('Поръчката е създадена!');
+
+    this.orderService.placeOrder({
+      items: summary.items.map((i) => ({
+        name: i.product.name,
+        quantity: i.quantity,
+        price: i.product.price,
+      })),
+      subtotal: summary.subtotal,
+      discounts: summary.discounts,
+      deliveryFee: summary.deliveryFee,
+      total: summary.total,
+    });
+
     this.cartService.clearCart();
     this.close();
+    this.router.navigate(['/orders']);
   }
 }
