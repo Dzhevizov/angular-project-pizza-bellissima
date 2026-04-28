@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const EUR_TO_LEV = 1.95583;
-const FREE_DELIVERY_THRESHOLD_EUR = 20 / EUR_TO_LEV; // ~10.23 €
-const DELIVERY_FEE_EUR = 4.99 / EUR_TO_LEV;          // ~2.55 €
+const FREE_DELIVERY_THRESHOLD_EUR = 10;
+const DELIVERY_FEE_EUR = 2.55;
 
 interface CartSummary {
   items: CartItem[];
