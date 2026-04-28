@@ -8,10 +8,13 @@ export enum ProductCategory {
 
 export interface Product {
   id: string;
+  _id?: string;
   name: string;
   description: string;
   price: number;
   discount: number;
   category: ProductCategory;
   image: string;
+  size?: string;
+  ingredients?: string;
 }

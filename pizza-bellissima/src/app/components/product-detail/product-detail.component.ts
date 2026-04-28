@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Product, ProductCategory } from '../../models/product.model';
-import { products } from '../../data/products';
 import { CartService } from '../../services/cart.service';
+import { ProductService } from '../../services/product.service';
 
 const categoryTitles: Record<ProductCategory, string> = {
   [ProductCategory.Pizza]: 'Италиански пици',
@@ -20,23 +20,41 @@ const categoryTitles: Record<ProductCategory, string> = {
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css'],
 })
-export class ProductDetailComponent {
+export class ProductDetailComponent implements OnInit {
   private readonly EUR_TO_LEV = 1.95583;
 
   product?: Product;
   categoryTitles = categoryTitles;
   addedToCart = false;
   isAdmin = false;
+  isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private cartService: CartService
-  ) {
+    private cartService: CartService,
+    private productService: ProductService
+  ) {}
+
+  ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
-      this.product = id ? products.find((item) => item.id === id) : undefined;
-      this.addedToCart = false;
+      if (!id) {
+        this.isLoading = false;
+        return;
+      }
+      this.isLoading = true;
+      this.productService.getProductById(id).subscribe({
+        next: (product) => {
+          this.product = product;
+          this.isLoading = false;
+          this.addedToCart = false;
+        },
+        error: () => {
+          this.product = undefined;
+          this.isLoading = false;
+        },
+      });
     });
   }
 
@@ -48,7 +66,12 @@ export class ProductDetailComponent {
     this.router.navigate(['/product/edit', id]);
   }
 
-  deleteProduct() {}
+  deleteProduct() {
+    if (!this.product) return;
+    this.productService.deleteProduct(this.product.id).subscribe({
+      next: () => this.router.navigate(['/catalog']),
+    });
+  }
 
   addToCart() {
     if (!this.product) return;

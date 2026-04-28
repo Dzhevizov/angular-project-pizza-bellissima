@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductCardComponent } from '../product-card/product-card.component';
-import { products } from '../../data/products';
 import { Product, ProductCategory } from '../../models/product.model';
+import { ProductService } from '../../services/product.service';
 
 interface CategoryItem {
   id: ProductCategory;
@@ -33,18 +33,34 @@ const categoryTitles: Record<ProductCategory, string> = {
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css'],
 })
-export class CatalogComponent {
-  products: Product[] = products;
+export class CatalogComponent implements OnInit {
+  private allProducts: Product[] = [];
+  filteredProducts: Product[] = [];
   categories = categories;
   selectedCategory: ProductCategory = ProductCategory.Pizza;
-  filteredProducts: Product[] = this.products.filter((product) => product.category === this.selectedCategory);
   title = categoryTitles[this.selectedCategory];
   isAdmin = true;
+  isLoading = true;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    this.route.paramMap.subscribe((params) => {
-      const category = (params.get('category') as ProductCategory) || ProductCategory.Pizza;
-      this.selectCategory(category);
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private productService: ProductService
+  ) {}
+
+  ngOnInit() {
+    this.productService.getProducts().subscribe({
+      next: (products) => {
+        this.allProducts = products;
+        this.isLoading = false;
+        this.route.paramMap.subscribe((params) => {
+          const category = (params.get('category') as ProductCategory) || ProductCategory.Pizza;
+          this.selectCategory(category);
+        });
+      },
+      error: () => {
+        this.isLoading = false;
+      },
     });
   }
 
@@ -60,6 +76,6 @@ export class CatalogComponent {
 
     this.selectedCategory = selected;
     this.title = categoryTitles[selected];
-    this.filteredProducts = this.products.filter((product) => product.category === selected);
+    this.filteredProducts = this.allProducts.filter((p) => p.category === selected);
   }
 }

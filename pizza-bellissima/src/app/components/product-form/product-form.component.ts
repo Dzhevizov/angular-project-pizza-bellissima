@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Product, ProductCategory } from '../../models/product.model';
-import { products } from '../../data/products';
+import { ProductCategory } from '../../models/product.model';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-form',
@@ -12,15 +12,13 @@ import { products } from '../../data/products';
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css'],
 })
-export class ProductFormComponent {
+export class ProductFormComponent implements OnInit {
   private readonly EUR_TO_LEV = 1.95583;
+  private editId: string | null = null;
 
   isEditMode = false;
   error = '';
-
-  toLev(eur: number): string {
-    return (eur * this.EUR_TO_LEV).toFixed(2);
-  }
+  isLoading = false;
 
   name = '';
   category: ProductCategory = ProductCategory.Pizza;
@@ -37,26 +35,34 @@ export class ProductFormComponent {
     { value: ProductCategory.Drink, label: 'Напитки' },
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private productService: ProductService
+  ) {}
+
+  ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
         this.isEditMode = true;
-        const product = products.find((p) => p.id === id);
-        if (product) {
-          this.prefill(product);
-        }
+        this.editId = id;
+        this.productService.getProductById(id).subscribe({
+          next: (product) => {
+            this.name = product.name;
+            this.category = product.category;
+            this.price = product.price;
+            this.discount = product.discount ?? null;
+            this.description = product.description;
+            this.image = product.image;
+          },
+        });
       }
     });
   }
 
-  private prefill(product: Product) {
-    this.name = product.name;
-    this.category = product.category;
-    this.price = product.price;
-    this.discount = product.discount ?? null;
-    this.description = product.description;
-    this.image = product.image;
+  toLev(eur: number): string {
+    return (eur * this.EUR_TO_LEV).toFixed(2);
   }
 
   handleSubmit() {
@@ -65,6 +71,7 @@ export class ProductFormComponent {
       return;
     }
     this.error = '';
+    this.isLoading = true;
 
     const productData = {
       name: this.name,
@@ -75,8 +82,20 @@ export class ProductFormComponent {
       image: this.image,
     };
 
-    console.log(this.isEditMode ? 'Редакция:' : 'Нов продукт:', productData);
-    this.router.navigate(['/catalog']);
+    const request$ = this.isEditMode && this.editId
+      ? this.productService.updateProduct(this.editId, productData)
+      : this.productService.createProduct(productData);
+
+    request$.subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.router.navigate(['/catalog']);
+      },
+      error: () => {
+        this.isLoading = false;
+        this.error = 'Грешка при запазване. Моля, опитайте отново.';
+      },
+    });
   }
 
   cancel() {
