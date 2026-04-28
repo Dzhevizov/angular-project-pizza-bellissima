@@ -48,6 +48,7 @@ export class RegisterComponent {
         address: this.address,
         city: this.city,
         notes: this.notes,
+        role: 'client',
       })
       .subscribe({
         next: () => this.router.navigate(['/catalog']),
