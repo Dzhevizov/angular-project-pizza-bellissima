@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CartService, CartItem } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
+import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -44,6 +45,7 @@ export class CartComponent {
   constructor(
     private cartService: CartService,
     private orderService: OrderService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -65,6 +67,12 @@ export class CartComponent {
 
   placeOrder(summary: CartSummary) {
     if (summary.items.length === 0) return;
+
+    if (!this.authService.currentUser) {
+      this.close();
+      this.router.navigate(['/login']);
+      return;
+    }
 
     this.orderService.placeOrder({
       items: summary.items.map((i) => ({

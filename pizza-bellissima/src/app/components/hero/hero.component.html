@@ -9,7 +9,7 @@
       </div>
       <div class="hero-actions">
         <a routerLink="/catalog" class="btn-primary">Виж менюто</a>
-        <a routerLink="/login" class="btn-secondary">Вход</a>
+        <a routerLink="/login" class="btn-secondary" *ngIf="!authService.currentUser">Вход</a>
       </div>
     </div>
 
