@@ -770,6 +770,25 @@ async function get(context, tokens, query, body) {
             throw new RequestError$1();
         }
 
+        if (context.params.collection === 'orders' && responseData.status === 'pending') {
+            const orderId = responseData._id;
+            console.log(`[Order ${orderId}] Status transitions scheduled.`);
+            setTimeout(async () => {
+                try {
+                    if (!_appStorage) { console.error(`[Order ${orderId}] Storage not ready`); return; }
+                    await _appStorage.merge('orders', orderId, { status: 'in delivery' });
+                    console.log(`[Order ${orderId}] Status -> in delivery`);
+                } catch (e) { console.error(`[Order ${orderId}] Failed in delivery transition:`, e); }
+            }, 2 * 60 * 1000);
+            setTimeout(async () => {
+                try {
+                    if (!_appStorage) { console.error(`[Order ${orderId}] Storage not ready`); return; }
+                    await _appStorage.merge('orders', orderId, { status: 'completed' });
+                    console.log(`[Order ${orderId}] Status -> completed`);
+                } catch (e) { console.error(`[Order ${orderId}] Failed completed transition:`, e); }
+            }, 4 * 60 * 1000);
+        }
+
         return responseData;
     }
 
@@ -950,8 +969,11 @@ async function get(context, tokens, query, body) {
     const { uuid: uuid$2 } = util;
 
 
+    let _appStorage = null;
+
     function initPlugin(settings) {
         const storage = createMongoInstance(settings.seedData);
+        storage.then(s => { _appStorage = s; });
         const protectedStorage = createMongoInstance(settings.protectedData);
 
         return async function decoreateContext(context, request) {
