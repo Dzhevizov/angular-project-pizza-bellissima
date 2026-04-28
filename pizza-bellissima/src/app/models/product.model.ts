@@ -17,4 +17,5 @@ export interface Product {
   image: string;
   size?: string;
   ingredients?: string;
+  isStatic?: boolean;
 }
