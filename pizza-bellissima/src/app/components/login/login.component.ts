@@ -15,16 +15,21 @@ export class LoginComponent {
   email = '';
   password = '';
   error = '';
+  isLoading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  async handleSubmit() {
+  handleSubmit() {
+    if (!this.email || !this.password) return;
     this.error = '';
-    try {
-      await this.authService.login(this.email, this.password);
-      this.router.navigate(['/']);
-    } catch {
-      this.error = 'Грешен имейл или парола';
-    }
+    this.isLoading = true;
+
+    this.authService.login(this.email, this.password).subscribe({
+      next: () => this.router.navigate(['/']),
+      error: () => {
+        this.error = 'Грешен имейл или парола.';
+        this.isLoading = false;
+      },
+    });
   }
 }

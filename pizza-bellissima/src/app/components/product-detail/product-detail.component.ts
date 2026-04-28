@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Product, ProductCategory } from '../../models/product.model';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
+import { AuthService } from '../../services/auth.service';
 
 const categoryTitles: Record<ProductCategory, string> = {
   [ProductCategory.Pizza]: 'Италиански пици',
@@ -26,14 +27,14 @@ export class ProductDetailComponent implements OnInit {
   product?: Product;
   categoryTitles = categoryTitles;
   addedToCart = false;
-  isAdmin = false;
   isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private cartService: CartService,
-    private productService: ProductService
+    private productService: ProductService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {

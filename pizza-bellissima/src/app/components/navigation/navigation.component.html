@@ -15,18 +15,20 @@
     <a routerLink="/catalog" class="navigation__menu-link">Нашето меню</a>
 
     <div class="navigation__side">
-      <div class="navigation__optional-link" *ngIf="isAuthenticated">
-        <a routerLink="/orders">{{ isAdmin ? 'Дневни поръчки' : 'Моите поръчки' }}</a>
-      </div>
+      <ng-container *ngIf="isAuthenticated$ | async">
+        <div class="navigation__optional-link">
+          <a routerLink="/orders">{{ (isAdmin$ | async) ? 'Дневни поръчки' : 'Моите поръчки' }}</a>
+        </div>
+      </ng-container>
 
       <div class="navigation__user-block">
-        <ng-container *ngIf="isAuthenticated; else guestActions">
-          <span class="navigation__greeting">Здравей, {{ userName }}</span>
-          <button class="navigation__logout" type="button">Изход</button>
+        <ng-container *ngIf="currentUser$ | async as user; else guestActions">
+          <span class="navigation__greeting">Здравей, {{ user.firstName || user.username }}</span>
+          <button class="navigation__logout" type="button" (click)="logout()">Изход</button>
         </ng-container>
         <ng-template #guestActions>
-          <a href="/login" class="navigation__link-secondary">Вход</a>
-          <a href="/register" class="navigation__link-secondary">Регистрация</a>
+          <a routerLink="/login" class="navigation__link-secondary">Вход</a>
+          <a routerLink="/register" class="navigation__link-secondary">Регистрация</a>
         </ng-template>
       </div>
 

@@ -125,7 +125,9 @@
 
             async function processPlugins() {
                 const context = { params: {} };
-                await Promise.all(plugins.map(decorate => Promise.resolve(decorate(context, req))));
+                for (const decorate of plugins) {
+                    await Promise.resolve(decorate(context, req));
+                }
                 return context;
             }
 
@@ -1185,7 +1187,7 @@ async function get(context, tokens, query, body) {
     function deepCopy(value) {
         if (Array.isArray(value)) {
             return value.map(deepCopy);
-        } else if (typeof value == 'object') {
+        } else if (value !== null && typeof value == 'object') {
             return [...Object.entries(value)].reduce((p, [k, v]) => Object.assign(p, { [k]: deepCopy(v) }), {});
         } else {
             return value;
