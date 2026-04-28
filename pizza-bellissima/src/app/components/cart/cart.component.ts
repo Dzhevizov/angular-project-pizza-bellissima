@@ -76,10 +76,13 @@ export class CartComponent {
       discounts: summary.discounts,
       deliveryFee: summary.deliveryFee,
       total: summary.total,
+    }).subscribe({
+      next: () => {
+        this.cartService.clearCart();
+        this.close();
+        this.router.navigate(['/orders']);
+      },
+      error: (err) => console.error('Грешка при поръчка', err),
     });
-
-    this.cartService.clearCart();
-    this.close();
-    this.router.navigate(['/orders']);
   }
 }
