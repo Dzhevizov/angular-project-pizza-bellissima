@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { OrderService } from '../../services/order.service';
+import { AuthService } from '../../services/auth.service';
 import { Order } from '../../models/order.model';
 import { map } from 'rxjs/operators';
 
@@ -15,18 +16,18 @@ import { map } from 'rxjs/operators';
 export class OrdersComponent {
   private readonly EUR_TO_LEV = 1.95583;
 
-  // Swap to true to preview admin view
-  isAdmin = true;
+  constructor(
+    private orderService: OrderService,
+    public authService: AuthService
+  ) {}
 
   orders$ = this.orderService.orders$.pipe(
-    map((orders) =>
-      this.isAdmin
+    map(() =>
+      this.authService.isAdmin
         ? this.orderService.getTodayOrders()
-        : this.orderService.getMyOrders('user-1')
+        : this.orderService.getMyOrders(this.authService.currentUser?._id ?? '')
     )
   );
-
-  constructor(private orderService: OrderService) {}
 
   toLev(eur: number): string {
     return (eur * this.EUR_TO_LEV).toFixed(2);

@@ -1,11 +1,11 @@
 <section class="orders">
   <div class="orders__wrapper">
-    <h1 class="orders__title">{{ isAdmin ? 'Дневни поръчки' : 'Моите поръчки' }}</h1>
+    <h1 class="orders__title">{{ authService.isAdmin ? 'Дневни поръчки' : 'Моите поръчки' }}</h1>
 
     <ng-container *ngIf="orders$ | async as orders">
 
       <p class="orders__empty" *ngIf="orders.length === 0">
-        {{ isAdmin ? 'Няма поръчки за днес.' : 'Нямате направени поръчки.' }}
+        {{ authService.isAdmin ? 'Няма поръчки за днес.' : 'Нямате направени поръчки.' }}
       </p>
 
       <ul class="orders__list" *ngIf="orders.length > 0">

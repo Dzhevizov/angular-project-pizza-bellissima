@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -12,15 +13,23 @@ import { CartService } from '../../services/cart.service';
 })
 export class NavigationComponent {
   cartCount$ = this.cartService.cartCount$;
+  currentUser$ = this.authService.currentUser$;
+  isAuthenticated$ = this.authService.isAuthenticated$;
+  isAdmin$ = this.authService.isAdmin$;
 
-  // Future auth state placeholders; auth is not implemented yet.
-  isAuthenticated = true;
-  isAdmin = true;
-  userName = 'Иван';
-
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   openCart() {
     this.cartService.openCart();
+  }
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => this.router.navigate(['/']),
+    });
   }
 }

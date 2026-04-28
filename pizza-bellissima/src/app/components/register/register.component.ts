@@ -23,10 +23,11 @@ export class RegisterComponent {
   city = '';
   notes = '';
   error = '';
+  isLoading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  async handleSubmit() {
+  handleSubmit() {
     this.error = '';
 
     if (this.password !== this.rePassword) {
@@ -34,21 +35,27 @@ export class RegisterComponent {
       return;
     }
 
-    try {
-      await this.authService.register(this.username, this.password, {
+    this.isLoading = true;
+
+    this.authService
+      .register({
+        email: this.email,
+        password: this.password,
+        username: this.username,
         firstName: this.firstName,
         lastName: this.lastName,
-        email: this.email,
         phone: this.phone,
         address: this.address,
         city: this.city,
         notes: this.notes,
+      })
+      .subscribe({
+        next: () => this.router.navigate(['/catalog']),
+        error: () => {
+          this.error = 'Грешка при регистрация. Моля, опитайте отново.';
+          this.isLoading = false;
+        },
       });
-
-      this.router.navigate(['/catalog']);
-    } catch {
-      this.error = 'Грешка при регистрация. Моля, опитайте отново.';
-    }
   }
 
   cancel() {

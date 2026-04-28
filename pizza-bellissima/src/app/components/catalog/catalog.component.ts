@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { Product, ProductCategory } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
+import { AuthService } from '../../services/auth.service';
 
 interface CategoryItem {
   id: ProductCategory;
@@ -39,13 +40,13 @@ export class CatalogComponent implements OnInit {
   categories = categories;
   selectedCategory: ProductCategory = ProductCategory.Pizza;
   title = categoryTitles[this.selectedCategory];
-  isAdmin = true;
   isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {
