@@ -1,4 +1,4 @@
-export type OrderStatus = 'PENDING' | 'DELIVERED' | 'CANCELLED';
+export type OrderStatus = 'pending' | 'in delivery' | 'completed' | 'cancelled';
 
 export interface OrderItem {
   name: string;

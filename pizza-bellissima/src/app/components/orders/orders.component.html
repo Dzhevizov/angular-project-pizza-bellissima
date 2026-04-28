@@ -19,9 +19,10 @@
             </div>
             <span
               class="order-card__status"
-              [class.order-card__status--pending]="order.status === 'PENDING'"
-              [class.order-card__status--delivered]="order.status === 'DELIVERED'"
-              [class.order-card__status--cancelled]="order.status === 'CANCELLED'"
+              [class.order-card__status--pending]="order.status === 'pending'"
+              [class.order-card__status--in-delivery]="order.status === 'in delivery'"
+              [class.order-card__status--completed]="order.status === 'completed'"
+              [class.order-card__status--cancelled]="order.status === 'cancelled'"
             >
               {{ statusLabel(order.status) }}
             </span>

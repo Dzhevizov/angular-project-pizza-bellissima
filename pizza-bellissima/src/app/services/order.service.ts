@@ -21,7 +21,7 @@ export class OrderService {
       ...order,
       date: new Date().toISOString().split('T')[0],
       clientId: this.authService.currentUser?._id ?? '',
-      status: 'PENDING' as const,
+      status: 'pending' as const,
     };
     return this.http.post<any>(`${API_URL}/data/orders`, body).pipe(
       map(res => ({ ...res, id: res._id }))
