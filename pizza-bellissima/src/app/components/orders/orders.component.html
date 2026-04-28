@@ -34,7 +34,7 @@
               <span class="order-card__item-name">{{ item.name }} × {{ item.quantity }}</span>
               <span class="order-card__item-price">
                 {{ (item.price * item.quantity) | number:'1.2-2' }} €
-                / {{ toLev(item.price * item.quantity) }} лв
+                / {{ (item.price * item.quantity) | eurToLev }} лв
               </span>
             </li>
           </ul>
@@ -43,19 +43,19 @@
           <div class="order-card__summary">
             <div class="order-card__summary-row">
               <span>Субтотал</span>
-              <span>{{ order.subtotal | number:'1.2-2' }} € / {{ toLev(order.subtotal) }} лв</span>
+              <span>{{ order.subtotal | number:'1.2-2' }} € / {{ order.subtotal | eurToLev }} лв</span>
             </div>
             <div class="order-card__summary-row order-card__summary-row--muted" *ngIf="order.discounts > 0">
               <span>Отстъпки</span>
-              <span>-{{ order.discounts | number:'1.2-2' }} € / -{{ toLev(order.discounts) }} лв</span>
+              <span>-{{ order.discounts | number:'1.2-2' }} € / -{{ order.discounts | eurToLev }} лв</span>
             </div>
             <div class="order-card__summary-row order-card__summary-row--muted" *ngIf="order.deliveryFee > 0">
               <span>Доставка</span>
-              <span>{{ order.deliveryFee | number:'1.2-2' }} € / {{ toLev(order.deliveryFee) }} лв</span>
+              <span>{{ order.deliveryFee | number:'1.2-2' }} € / {{ order.deliveryFee | eurToLev }} лв</span>
             </div>
             <div class="order-card__summary-row order-card__summary-row--total">
               <span>Общо</span>
-              <span>{{ order.total | number:'1.2-2' }} € / {{ toLev(order.total) }} лв</span>
+              <span>{{ order.total | number:'1.2-2' }} € / {{ order.total | eurToLev }} лв</span>
             </div>
           </div>
 

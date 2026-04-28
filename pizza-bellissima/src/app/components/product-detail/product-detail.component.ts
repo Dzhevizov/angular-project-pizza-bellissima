@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { EurToLevPipe } from '../../pipes/eur-to-lev.pipe';
 import { Product, ProductCategory } from '../../models/product.model';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
@@ -17,13 +18,11 @@ const categoryTitles: Record<ProductCategory, string> = {
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, EurToLevPipe],
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailComponent implements OnInit {
-  private readonly EUR_TO_LEV = 1.95583;
-
   product?: Product;
   categoryTitles = categoryTitles;
   addedToCart = false;
@@ -57,10 +56,6 @@ export class ProductDetailComponent implements OnInit {
         },
       });
     });
-  }
-
-  toLev(eur: number): string {
-    return (eur * this.EUR_TO_LEV).toFixed(2);
   }
 
   editProduct(id: string) {

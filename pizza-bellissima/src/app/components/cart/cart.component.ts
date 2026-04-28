@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { EurToLevPipe } from '../../pipes/eur-to-lev.pipe';
 import { Router } from '@angular/router';
 import { CartService, CartItem } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
@@ -7,7 +8,6 @@ import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const EUR_TO_LEV = 1.95583;
 const FREE_DELIVERY_THRESHOLD_EUR = 10;
 const DELIVERY_FEE_EUR = 2.55;
 
@@ -22,7 +22,7 @@ interface CartSummary {
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, EurToLevPipe],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
 })
@@ -59,10 +59,6 @@ export class CartComponent {
 
   remove(productId: string) {
     this.cartService.removeFromCart(productId);
-  }
-
-  toLev(eur: number): string {
-    return (eur * EUR_TO_LEV).toFixed(2);
   }
 
   placeOrder(summary: CartSummary) {

@@ -45,7 +45,7 @@
               class="product-form__input"
             />
             <span class="product-form__hint" *ngIf="price && price > 0">
-              ≈ {{ toLev(price) }} лв
+              ≈ {{ price | eurToLev }} лв
             </span>
           </div>
 

@@ -29,7 +29,7 @@
           <div class="cart__item-right">
             <span class="cart__item-price">
               {{ (item.product.price * item.quantity) | number:'1.2-2' }} €
-              <span class="cart__item-eur">/ {{ toLev(item.product.price * item.quantity) }} лв</span>
+              <span class="cart__item-eur">/ {{ (item.product.price * item.quantity) | eurToLev }} лв</span>
             </span>
             <span class="cart__item-discount" *ngIf="item.product.discount">-{{ item.product.discount }}%</span>
             <button class="cart__remove" type="button" (click)="remove(item.product.id)">Премахни</button>
@@ -45,19 +45,19 @@
       <div class="cart__summary">
         <div class="cart__summary-row">
           <span>Субтотал</span>
-          <span>{{ summary.subtotal | number:'1.2-2' }} € / {{ toLev(summary.subtotal) }} лв</span>
+          <span>{{ summary.subtotal | number:'1.2-2' }} € / {{ summary.subtotal | eurToLev }} лв</span>
         </div>
         <div class="cart__summary-row cart__summary-row--muted" *ngIf="summary.discounts > 0">
           <span>Отстъпки</span>
-          <span>-{{ summary.discounts | number:'1.2-2' }} € / -{{ toLev(summary.discounts) }} лв</span>
+          <span>-{{ summary.discounts | number:'1.2-2' }} € / -{{ summary.discounts | eurToLev }} лв</span>
         </div>
         <div class="cart__summary-row cart__summary-row--muted" *ngIf="summary.deliveryFee > 0">
           <span>Доставка</span>
-          <span>{{ summary.deliveryFee | number:'1.2-2' }} € / {{ toLev(summary.deliveryFee) }} лв</span>
+          <span>{{ summary.deliveryFee | number:'1.2-2' }} € / {{ summary.deliveryFee | eurToLev }} лв</span>
         </div>
         <div class="cart__summary-row cart__summary-row--total">
           <span>Крайна сума</span>
-          <span>{{ summary.total | number:'1.2-2' }} € / {{ toLev(summary.total) }} лв</span>
+          <span>{{ summary.total | number:'1.2-2' }} € / {{ summary.total | eurToLev }} лв</span>
         </div>
       </div>
 

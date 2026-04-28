@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { EurToLevPipe } from '../../pipes/eur-to-lev.pipe';
 import { Observable, Subscription, timer, switchMap } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
@@ -9,13 +10,11 @@ import { Order } from '../../models/order.model';
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, EurToLevPipe],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
 })
 export class OrdersComponent implements OnInit, OnDestroy {
-  private readonly EUR_TO_LEV = 1.95583;
-
   orders$!: Observable<Order[]>;
   private pollSub!: Subscription;
 
@@ -38,10 +37,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.pollSub?.unsubscribe();
-  }
-
-  toLev(eur: number): string {
-    return (eur * this.EUR_TO_LEV).toFixed(2);
   }
 
   statusLabel(status: Order['status']): string {

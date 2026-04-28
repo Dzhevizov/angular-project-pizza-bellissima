@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EurToLevPipe } from '../../pipes/eur-to-lev.pipe';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductCategory } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
@@ -8,12 +9,11 @@ import { ProductService } from '../../services/product.service';
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, EurToLevPipe],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css'],
 })
 export class ProductFormComponent implements OnInit {
-  private readonly EUR_TO_LEV = 1.95583;
   private editId: string | null = null;
 
   isEditMode = false;
@@ -59,10 +59,6 @@ export class ProductFormComponent implements OnInit {
         });
       }
     });
-  }
-
-  toLev(eur: number): string {
-    return (eur * this.EUR_TO_LEV).toFixed(2);
   }
 
   handleSubmit() {
